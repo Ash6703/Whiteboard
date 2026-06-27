@@ -67,7 +67,19 @@ export function useDrawing() {
   }, []);
 
   const undo = useCallback(() => {
-    setStrokes(prev => prev.slice(0, -1));
+    setStrokes(prev => {
+      // Find the last stroke by this user and remove it
+      const lastOwnIndex = [...prev].reverse().findIndex(s => s.userId === LOCAL_USER_ID);
+      if (lastOwnIndex === -1) return prev;
+      const actualIndex = prev.length - 1 - lastOwnIndex;
+      return prev.filter((_, i) => i !== actualIndex);
+    });
+  }, []);
+
+  const clear = useCallback(() => {
+    setStrokes([]);
+    setActiveStroke(null);
+    activeStrokeRef.current = null;
   }, []);
 
   return {
@@ -84,5 +96,6 @@ export function useDrawing() {
     removeStroke,
     clearAll,
     undo,
+    clear,
   };
 }

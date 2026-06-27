@@ -4,6 +4,8 @@ import { Canvas, Path, Skia } from '@shopify/react-native-skia';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { Stroke, ActiveStroke } from '../types';
 
+const CANVAS_BACKGROUND = '#FFFFFF';
+
 interface CanvasProps {
   strokes: Stroke[];
   activeStroke: ActiveStroke | null;
@@ -28,7 +30,7 @@ function StrokePath({ stroke }: { stroke: Stroke | ActiveStroke }) {
   return (
     <Path
       path={path}
-      color={stroke.isEraser ? '#FFFFFF' : stroke.color}
+      color={stroke.isEraser ? CANVAS_BACKGROUND : stroke.color}
       style="stroke"
       strokeWidth={stroke.width}
       strokeCap="round"
@@ -70,7 +72,7 @@ export function WhiteboardCanvas({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: CANVAS_BACKGROUND,
   },
   canvas: {
     flex: 1,
